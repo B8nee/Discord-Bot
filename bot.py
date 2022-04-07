@@ -3,6 +3,7 @@ import os
 import random
 import discord
 
+from discord import FFmpegPCMAudio
 from dotenv import load_dotenv
 from discord.ext import commands
 
@@ -42,6 +43,20 @@ async def kick(ctx, member: discord.Member=None, reason=None):
             await member.send(messageok)
             await member.kick(reason=reason)
     
-    
+@bot.command(name='play', help='Riproduci un file audio: die | faccetta')
+async def play(ctx, name):
+    channel = ctx.author.voice.channel
+    voice = await channel.connect()
+    if name == 'die':
+        source = FFmpegPCMAudio('sounds/die.mp3')
+        player = voice.play(source)
+    if name == 'faccetta':
+        source = FFmpegPCMAudio('sounds/faccetta.mp3')
+        player = voice.play(source)   
+
+@bot.command(name='stop', help='Stoppa la riproduzione.')
+async def disconnect(ctx):
+    await ctx.voice_client.disconnect()
+
 bot.activity = discord.Activity(name='Demon Slayer', type=discord.ActivityType.watching)
 bot.run(TOKEN)
