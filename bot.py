@@ -10,6 +10,8 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 
 bot = commands.Bot(command_prefix='.')
 
+bot.activity = discord.Game(name='Demon Slayer')
+
 @bot.event
 async def on_ready():
     print(f'{bot.user.name} si e\' connesso al server Cazzate Time!')
@@ -30,8 +32,9 @@ async def on_message(message):
     if message.content == 'scimmia':
         response = random.choice(b8ne_quotes)
         await message.channel.send(response)
-        
-bot.activity = discord.Game(name='Demon Slayer')
-    
+
+@bot.command(name='hi', help='Say hi')
+async def hi(ctx):
+    print(f'Test')
     
 bot.run(TOKEN)
